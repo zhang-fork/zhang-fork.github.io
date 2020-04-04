@@ -4,6 +4,9 @@ dist: trusty
 
 sudo: false
 
+env:
+  - HUGO_VERSION=0.68.3
+
 install: true
 
 before_script:
