@@ -4,9 +4,6 @@ dist: trusty
 
 sudo: false
 
-env:
-  - HUGO_VERSION=0.56.0
-
 install: true
 
 before_script:
@@ -15,7 +12,7 @@ before_script:
   - rm -rf public || exit 0
 
 script:
-  - hugo -v --gc --even
+  - hugo
 
 
 deploy:
