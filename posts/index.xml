@@ -1,4 +1,61 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 04 Apr 2020 23:16:15 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>终于折腾成功了blog</title><link>https://zhang-fork.github.io/posts/fist/</link><pubDate>Sat, 04 Apr 2020 23:16:15 +0800</pubDate><guid>https://zhang-fork.github.io/posts/fist/</guid><description> 一些坑记录下，造福一下像我这样的人吧
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Apr 2020 09:10:16 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>写页面遇到的问题</title><link>https://zhang-fork.github.io/posts/%E5%86%99%E9%A1%B5%E9%9D%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Sun, 05 Apr 2020 09:10:16 +0800</pubDate><guid>https://zhang-fork.github.io/posts/%E5%86%99%E9%A1%B5%E9%9D%A2%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>卡卡的轮播图 按照b站的教程,实现了走马灯的和渐隐的轮播图,但是走马灯的实在是卡,如下图: 自能说搞清了原理,具体优化,我看还是等学了前端框架再来弄了. portfolio部分的弹出 按照psd文件,应该是每一个小图片点一下会弹出一个详解,但是还没有时间去弄.就先直接摆上去图片了. header部分的背景 原来是直接整个header部分切图,但是背景图片过大,想看能否用原生的css实现,学习了Background-blend属性,貌似有点样子,但是logo部分有个问题卡住了, logo在nav和轮播图中间,不规则的缺刻用一个trick解决了,用的是伪元素的实现 .trick{ overflow: hidden; position: relative; filter: drop-shadow(0 -2px 2px rgba(0,0,0,0.5)); } .trick::before{ content: &amp;#34;&amp;#34;; position: absolute; left:50%; transform: translate(-50%,-50%); top:-49px; border-radius: 50%; width: 140px; height: 140px; box-shadow: 0 -2px 0 1000px rgba(255, 255, 255, 0.1); } 二者之间的阴影使用filter实现,但是副作用是轮播图片和文字都被影响了,也有了阴影.更严重的是它们之间还有dotted line,这个就没得办法了,感觉毫无出路,还是实力不够.
+这样一折腾感觉大小还是没有缩小,可优化的路数是减小布纹材质图片的大小,现在的是500*500px的,应该是可以用更小的代替.
+就算能加上dotted line,感觉质感不如原图,用data_url加质感看看吧.
+用Background-blend属性后,:hover伪类的实现也受到了影响.给hover的背景渐变没有了.如下图 在css里面指定了blend-mode为none没用,感觉走错了方向,权当学习了.
+文件放到GitHub了</description><content type="html"><![CDATA[<h2 id="卡卡的轮播图">卡卡的轮播图</h2>
+<ul>
+<li>按照b站的教程,实现了走马灯的和渐隐的轮播图,但是走马灯的实在是卡,如下图:
+<img src="/images/%E5%8D%A1%E5%8D%A1%E7%9A%84%E8%BD%AE%E6%92%AD%E5%9B%BE.gif" alt="卡卡的轮播图">
+自能说搞清了原理,具体优化,我看还是等学了前端框架再来弄了.</li>
+</ul>
+<h2 id="portfolio部分的弹出">portfolio部分的弹出</h2>
+<ul>
+<li>按照psd文件,应该是每一个小图片点一下会弹出一个详解,但是还没有时间去弄.就先直接摆上去图片了.</li>
+</ul>
+<h2 id="header部分的背景">header部分的背景</h2>
+<ul>
+<li>原来是直接整个header部分切图,但是背景图片过大,想看能否用原生的css实现,学习了Background-blend属性,貌似有点样子,但是logo部分有个问题卡住了,
+logo在nav和轮播图中间,不规则的缺刻用一个trick解决了,用的是伪元素的实现</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-css" data-lang="css"><span class="p">.</span><span class="nc">trick</span><span class="p">{</span>
+    <span class="k">overflow</span><span class="p">:</span> <span class="kc">hidden</span><span class="p">;</span>
+    <span class="k">position</span><span class="p">:</span> <span class="kc">relative</span><span class="p">;</span>
+    <span class="k">filter</span><span class="p">:</span> <span class="nb">drop-shadow</span><span class="p">(</span><span class="mi">0</span> <span class="mi">-2</span><span class="kt">px</span> <span class="mi">2</span><span class="kt">px</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="p">.</span><span class="nc">trick</span><span class="p">::</span><span class="nd">before</span><span class="p">{</span>
+    <span class="k">content</span><span class="p">:</span> <span class="s2">&#34;&#34;</span><span class="p">;</span>
+    <span class="k">position</span><span class="p">:</span> <span class="kc">absolute</span><span class="p">;</span>
+    <span class="k">left</span><span class="p">:</span><span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">transform</span><span class="p">:</span> <span class="nb">translate</span><span class="p">(</span><span class="mi">-50</span><span class="kt">%</span><span class="p">,</span><span class="mi">-50</span><span class="kt">%</span><span class="p">);</span>
+    <span class="k">top</span><span class="p">:</span><span class="mi">-49</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">border-radius</span><span class="p">:</span> <span class="mi">50</span><span class="kt">%</span><span class="p">;</span>
+    <span class="k">width</span><span class="p">:</span> <span class="mi">140</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">height</span><span class="p">:</span> <span class="mi">140</span><span class="kt">px</span><span class="p">;</span>
+    <span class="k">box-shadow</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">-2</span><span class="kt">px</span> <span class="mi">0</span> <span class="mi">1000</span><span class="kt">px</span> <span class="nb">rgba</span><span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+    
+   
+<span class="p">}</span>
+</code></pre></div><ul>
+<li>
+<p>二者之间的阴影使用filter实现,但是副作用是轮播图片和文字都被影响了,也有了阴影.更严重的是它们之间还有dotted line,这个就没得办法了,感觉毫无出路,还是实力不够.</p>
+</li>
+<li>
+<p>这样一折腾感觉大小还是没有缩小,可优化的路数是减小布纹材质图片的大小,现在的是500*500px的,应该是可以用更小的代替.</p>
+</li>
+<li>
+<p>就算能加上dotted line,感觉质感不如原图,用data_url加质感看看吧.</p>
+</li>
+<li>
+<p>用Background-blend属性后,:hover伪类的实现也受到了影响.给hover的背景渐变没有了.如下图
+<img src="/images/hover.gif" alt="hover背景颜色因blend-mode不显示">
+在css里面指定了blend-mode为none没用,感觉走错了方向,权当学习了.</p>
+</li>
+<li>
+<p><a href="https://github.com/zhang-fork/UIpsd">文件放到GitHub了</a></p>
+</li>
+</ul>
+]]></content></item><item><title>终于折腾成功了blog</title><link>https://zhang-fork.github.io/posts/fist/</link><pubDate>Sat, 04 Apr 2020 23:16:15 +0800</pubDate><guid>https://zhang-fork.github.io/posts/fist/</guid><description> 一些坑记录下，造福一下像我这样的人吧
 遇到问题先上网查 travis自动编译一直出 TOCSS: failed to transform &amp;ldquo;css/style.css&amp;rdquo; (text/x-scss): resource &amp;ldquo;scss/zhang-fork/zhang-fork.github.io/scss/style.scss_c16d144eee185fbddd582cd5e25a4fae&amp;quot;的问题 看样子是模板的问题,发现style.scss_c16d144eee185fbddd582cd5e25a4fae在模板示例文件夹下的resources里面,以为是要把这个加到hugo目录结构中的resources文件夹里,但是搞不定,凡事不能想当然,要是早点查就不会浪费时间了.虽然查了没发现跟这个一样的问题,但是有个类似问题的解决的途径是hugo要用extended版本的.现在还不能确认到底是模板的问题,还是hugo的问题. 多测试 后来我在本机hugo server了一下,也出现TOCSS: failed to transform的问题,要是我在本机先测试成功再push到github,可能又能节约很多时间吧,(lll￢ω￢).既然用extended可以解决类似问题,下了个extended的hugo,hugo server不报错了,本机多试没坏处.不过也犯了经验主义错误,先没有切换分支的时候本机测试过一遍,以为就没问题了,结果哪知道环境一变就出问题了.还是要多测 一定要仔细看帖子，多看英文帖子,并注意时效性 在travis.yml的配置修改为下载extended的hugo版本后,travis还是通不过,一直显示hugo: /usr/lib/x86_64-linux-gnu/libstdc++.so.6:缺lib文件,以为是要在配置文件中加script来下载相应的库文件 按照这个方向查,但这其实也是弯路,还好浪费的时间不多,翻issue里面说改dist,我之前在mipad1上装过Ubuntu,反应过来这个dist是发行版的意思,我抄的配置文件里面,dist 是trustly,😰,我还特意找的近一个月的文章 ,中文网页很多都是一大抄,看来这个文章抄的也是几年前的英文的帖子.还是要自己仔细看,多用英文google. 要多确认,记忆不一定靠谱 这个解决后travis还是没通过,显示invalid option &amp;ldquo;&amp;ndash;token=&amp;rdquo; ,字面上看就是token问题,但是我确认我的token应该没问题,因为我参考的所有文章都是github-token: $GITHUB_TOKEN,但是我在travis的setting里面确认了下,我写的是$GH_TOKEN,真尴尬.
 在travis.yml改了token后,输入https://zhang-fork.github.io/posts/终于见到了页面,但是一点post就404,一脸懵,还好在网址上发现了问题,config.toml里baseurl不是https://zhang-fork.github.io/posts/.
 选对路线 不敢想要是用hexo,会不会出问题的地方还是多,先前编译psd2html的时候,各种nodejs版本问题,包依赖问题,环境配置问题,简直是地狱,所以这次果断了选了hugo.没想到麻烦也不断,但是网络上的文章,貌似个个都很顺利,不知道是不说,还是我太菜.</description><content type="html"><![CDATA[<blockquote>
