@@ -1,4 +1,70 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 10 May 2020 09:04:02 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Slowing</title><link>https://zhang-fork.github.io/posts/slowing/</link><pubDate>Sun, 10 May 2020 09:04:02 +0800</pubDate><guid>https://zhang-fork.github.io/posts/slowing/</guid><description>基础不牢,地动山摇.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 23 May 2020 10:26:19 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Vue小白实现reactive</title><link>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</link><pubDate>Sat, 23 May 2020 10:26:19 +0800</pubDate><guid>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</guid><description>After reading es5, es6, and ts, ok, it is time to read the Vue. So,git clone the source code ,then open it. WTF,every single word i understood, but, you know,i gave up.
+All paths lead to Rome,as a newbie, what i can do is to write some sample myself.The easiest part of Vue may be the reactive function.So, let&amp;rsquo;s get rid of it.
+//The core concept of reactive is when we change the data, //the view can update simultaneously.</description><content type="html"><![CDATA[<p>After reading <a href="https://wangdoc.com/javascript/">es5</a>, <a href="https://es6.ruanyifeng.com/">es6</a>, and <a href="https://ts.xcatliu.com/">ts</a>, ok, it is time to read the Vue. So,git clone the source code ,then open it.
+<del>WTF</del>,every single word i understood, but, you know,i gave up.</p>
+<p>All paths lead to Rome,as a newbie, what i can do is to write some sample myself.The easiest part of Vue may be the reactive function.So, let&rsquo;s get rid of it.</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="c1">//The core concept of reactive is when we change the data,
+</span><span class="c1">//the view can update simultaneously.
+</span><span class="c1">//Of course,the javaScript do not do this automatically,
+</span><span class="c1">//when we change the data of an variable, just change it, nothing happen.
+</span><span class="c1">//Luckily,we can solve this by the proxy API in es6.
+</span><span class="c1"></span><span class="kd">function</span> <span class="nx">reactive</span><span class="p">(</span><span class="nx">object</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">object</span> <span class="o">!==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="k">typeof</span> <span class="nx">object</span> <span class="o">==</span> <span class="s2">&#34;object&#34;</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">makereactive</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span>
+  <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+    <span class="k">return</span> <span class="nx">object</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">makereactive</span><span class="p">(</span><span class="nx">object</span><span class="p">){</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Proxy</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span><span class="nx">handler</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">handler</span><span class="o">=</span><span class="p">{</span>
+  <span class="nx">get</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">receiver</span><span class="p">){</span>
+    <span class="c1">//we can do what we want do here!
+</span><span class="c1"></span>    <span class="kd">let</span> <span class="nx">res</span><span class="o">=</span><span class="nx">Reflect</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">receiver</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">res</span>
+    <span class="p">}</span>
+  <span class="c1">//ok, you can add other handlers you need ,do it yourself.
+</span><span class="c1"></span><span class="p">}</span>
+
+</code></pre></div><p>At this stage , problems below should be solved:</p>
+<ul>
+<li>how to make a nested object reactive</li>
+<li>if we use the method of array,the handlers such as getting may be triggered more than once.</li>
+<li>some other problems we don&rsquo;t know, you are the newbie!</li>
+</ul>
+<h2 id="function">Function</h2>
+<p>Ok,let&rsquo;s assume that all  problems above had been solved,how about function?</p>
+<p>As we know,the procedure ,such as joining or splitting the string,whatever,can also change the date.if we change the string, the returns of function must be changed too.how to implement this?</p>
+<p>Simplified answer:if we change the object involved in the function, we recall this function.</p>
+<p>Does JS can remember which function should be recalled when we change the object ?</p>
+<p>Of course not,we have to  construct a container to remember this,which store the object and the function ,what&rsquo;s more,this object may have many properties,our function may only related one of them,or many other functions related to this property too.</p>
+<p>what a mess,whatever, let&rsquo;s call it verybigmap.</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">let</span> <span class="nx">verybigmap</span><span class="o">=</span> <span class="k">new</span> <span class="nx">WeakMap</span><span class="p">();</span>
+</code></pre></div><ul>
+<li>The key is that when we call a function we want verybigmap to remember and then call again when we change the object,the handler getter must be triggered. Obviously,we should implant our code in handler.</li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">let</span> <span class="nx">handler</span><span class="o">=</span><span class="p">{</span>
+  <span class="nx">get</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">receiver</span><span class="p">){</span>
+    <span class="nx">track</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">key</span><span class="p">)</span><span class="c1">//track is a function that throw target and key into verybigmap
+</span><span class="c1"></span>    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div><p>And then we make the function reactive</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="nx">effect</span><span class="p">(</span><span class="nx">fn</span><span class="p">){</span>
+  <span class="c1">//1,throw the fn to verybigmap
+</span><span class="c1"></span>  <span class="c1">//2,run fn to trigger the track function
+</span><span class="c1"></span>  <span class="c1">//which one be first?
+</span><span class="c1"></span><span class="p">}</span>
+<span class="c1">//I think this name &#39;effect&#39; get from the terminology `side effect`
+</span></code></pre></div><p>The problem in above code segments may be not a problem for experts,but no one forbid me to have a question.if we throw the fn to the verybigmap first,where we place it,the <em>key</em>,or the <em>value</em>?</p>
+<p>Leaving it aside first,our aim is,after we trigger the setter(change a data),we recall the function,right? At first ,we must find the function in the verybigmap, at that moment, what we know is the target and the key(from the setter handler). Let&rsquo;s go back to previous problem, the answer is easy, fn must be the value. Yet hard question followed, how can we place a value before we get a key?</p>
+<p>It looks as through we should run fn first,nevertheless,from the context of effect function,we can not get the key connected to fn.</p>
+<p>There must be some kind of bridge to connect the target and fn,regardless of which one does first.you the wise must know that we can use the same trick again,which cache the key or value in stack,when we run the second procedure,we get the key or value from the stack top,then pop it.wow,there we go,fix it.</p>
+<p>This article cost me a little time,I am so tired,the rest will be in next <a href="">post</a>.</p>
+<p>To be continued&hellip;</p>
+]]></content></item><item><title>Slowing</title><link>https://zhang-fork.github.io/posts/slowing/</link><pubDate>Sun, 10 May 2020 09:04:02 +0800</pubDate><guid>https://zhang-fork.github.io/posts/slowing/</guid><description>基础不牢,地动山摇.
 当我看了Vue的100集视频教程后,发现没记下什么东西的时候,感觉到不妙了.操作性的东西,按照文档做问题不大,但是光记下流程没用,为啥要这样做？等版本一更新,学的流程就废了.
 原型链 初级的javascript教程里面,根本没有提及这个东西。Vue视频里面有谈到,看到老师用了,大概明白是做什么的,看了就过了.后来,想了解下vue的原理,搜索到一篇导读文章,里面表示此点要弄懂,遂翻了好多帖,最后一个视频里面看讲清楚了—— new方法,跟Object.create方法生成对象的原型链之异同.其实是阮一峰的es5教程里面先学了,照着敲了敲,再看视频,有一点点豁然开朗.
 响应式 Vue的响应式是怎么实现的呢?相关文章就能看懂个开头,😰就是Object.defineProperty的getter setter来劫持,还是看es5教程的时候的,知道有这么个方法.可惜Vue-next用es6的proxy了.路漫漫其修远兮.
