@@ -42,7 +42,8 @@ At this stage , problems below should be solved:
 * how to make a nested object reactive
 * if we use the method of array,the handlers such as getting may be triggered more than once.
 * some other problems we don't know, you are the newbie!
-## Function
+***
+## Function Reactive
 Ok,let's assume that all  problems above had been solved,how about function?
 
 
@@ -53,14 +54,14 @@ Simplified answer:if we change the object involved in the function, we recall th
 
 Does JS can remember which function should be recalled when we change the object ?
 
-Of course not,we have to  construct a container to remember this,which store the object and the function ,what's more,this object may have many properties,our function may only related one of them,or many other functions related to this property too.
+Of course not,we have to  construct a container to remember this,which store the object and the function ,what's more,this object may have many properties,our function may only related one of them,or many other  properties too.
 
 what a mess,whatever, let's call it verybigmap.
 
 ```JavaScript
 let verybigmap= new WeakMap();
 ```
-* The key is that when we call a function we want verybigmap to remember and then call again when we change the object,the handler getter must be triggered. Obviously,we should implant our code in handler.
+* The key is that when we call a function, we want verybigmap to remember and then  we change the object ,call it again the handler getter must be triggered. Obviously,we should implant our code in handler.
 ```JavaScript
 let handler={
   get(target,key,receiver){
@@ -81,11 +82,11 @@ effect(fn){
 ```
 The problem in above code segments may be not a problem for experts,but no one forbid me to have a question.if we throw the fn to the verybigmap first,where we place it,the *key*,or the *value*?
 
-Leaving it aside first,our aim is,after we trigger the setter(change a data),we recall the function,right? At first ,we must find the function in the verybigmap, at that moment, what we know is the target and the key(from the setter handler). Let's go back to previous problem, the answer is easy, fn must be the value. Yet hard question followed, how can we place a value before we get a key?
+Leaving it aside first,our aim is,after we trigger the setter(change a data),we recall the function,right? At first ,we must find the function in the verybigmap, at that moment, what we know is the target and the key(from the setter handler). Let's go back to previous problem, the answer is easy, fn must be the value. Yet hard question followed, how can we place a value in a map before we get a key?
 
-It looks as through we should run fn first,nevertheless,from the context of effect function,we can not get the key connected to fn.
+It looks like we should run fn first,nevertheless,from the context of effect function,we can not get the key connected to fn.
 
-There must be some kind of bridge to connect the target and fn,regardless of which one does first.you the wise must know that we can use the same trick again,which cache the key or value in stack,when we run the second procedure,we get the key or value from the stack top,then pop it.wow,there we go,fix it.
+There must be some kind of bridge to connect the target with fn,regardless of which one run first.you the wise must know that we can use the same trick again,when we run one step, push the key or value in stack,when we run the second procedure,we get the key or value from the stack top,then pop it.wow,there we go,fix it.
 
 This article cost me a little time,I am so tired,the rest will be in next [post]().
 
