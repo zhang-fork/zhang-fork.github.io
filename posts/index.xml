@@ -1,4 +1,73 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 23 May 2020 10:26:19 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Vue小白实现reactive</title><link>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</link><pubDate>Sat, 23 May 2020 10:26:19 +0800</pubDate><guid>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</guid><description>After reading es5, es6, and ts, ok, it is time to read the Vue. So,git clone the source code ,then open it. WTF,every single word i understood, but, you know,i gave up.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on zhangFork</title><link>https://zhang-fork.github.io/posts/</link><description>Recent content in Posts on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jun 2020 10:48:32 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Vue实现一个简单的评论系统</title><link>https://zhang-fork.github.io/posts/vue%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 05 Jun 2020 10:48:32 +0800</pubDate><guid>https://zhang-fork.github.io/posts/vue%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid><description>上次表示要接着看源码来着,但是看了上次写的post，有点看不懂，真是:talk is cheap，show code please! 暂且用起。
+目标是实现一个评论系统。
+数据结构 因为还没有学后端，所以先自己实践一个。
+import {reactive} from &amp;#34;vue&amp;#34; const list=reactive([ { name:&amp;#39;xx&amp;#39;, comment:&amp;#34;xxx&amp;#34;, like:5, child:[ { name:&amp;#34;23&amp;#34;, comment:&amp;#34;3ef&amp;#34;, like:0, parent_name:&amp;#39;xx&amp;#39;, child:[...] }, { name:&amp;#34;2113&amp;#34;, comment:&amp;#34;311ef&amp;#34;, like:0, parent_name:&amp;#39;xx&amp;#39;, child:[] }, ] }, { name:&amp;#39;x11x&amp;#39;, comment:&amp;#34;x1xx&amp;#34;, like:51, child:[] } ]) 大致如是,一个嵌套的数组,一层数组表示一级评论,一级评论表示对文章的评论,二级评论表示对一级评论的评论,放在一级评论的里面,用child字段表示,并加一个parent_name 的属性,用来指向它的父评论,应该用一个id来表示,但是为了方便,就偷懒用父评论的name了.
+当然后端的数据库不会这样表示,这个只是为了用vue的组件方便,因为组件也可以嵌套.对于嵌套的数据结构,我想应该可以用递归把它拍平,具体代码,就坑了吧.
+vue实践 一个简单的评论系统起码应该分成两部分,一个用来展示评论,一个用来回复,对应的vue组件的话,展示部分用两个组件,一个负责一级评论,一个负责剩下的级别.因为二者展示的方式不同,如果放在一个组件里面,用组件的自嵌套的话,逻辑比较复杂. 分开成俩后,一个包含嵌套,一个不包含,可能复用性会好一点,当然这些都是我实践完后的想法,当时,肯定是因为实现起来比较复杂.
+回复部分就一个组件,虽然对文章的评论与对评论的评论,在数据结构上面不一样,但是复杂度不高,而且这本来就是一个自己编的数据结构,所以&amp;hellip;
+其他的像时间,点赞数之类的小挂件,在数据结构上添加相应的字段即可,暂且不提.
+效果 对文章的评论: 对评论的评论: 反手一个赞: 其实整体部分实践起来不太困难,时间主要花在一个组件间的通讯,props如何使用上.
+二就是写模板,写css,调整效果比较麻烦,还好有bootstrap库,
+TODO 在截图的时候,发现回复和点赞icon也应该做成响应式的,😄
+数据验证功能,又是一个坑&amp;hellip;
+文件放到GitHub了</description><content type="html"><![CDATA[<p><del>上次表示要接着看源码来着,但是看了上次写的post，有点看不懂，真是:talk is cheap，show code please!</del>
+暂且用起。</p>
+<p>目标是实现一个评论系统。</p>
+<h3 id="数据结构">数据结构</h3>
+<p>因为还没有学后端，所以先自己实践一个。</p>
+<div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kr">import</span> <span class="p">{</span><span class="nx">reactive</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;vue&#34;</span>
+<span class="kr">const</span> <span class="nx">list</span><span class="o">=</span><span class="nx">reactive</span><span class="p">([</span>
+    <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;xx&#39;</span><span class="p">,</span>
+        <span class="nx">comment</span><span class="o">:</span><span class="s2">&#34;xxx&#34;</span><span class="p">,</span>
+        <span class="nx">like</span><span class="o">:</span><span class="mi">5</span><span class="p">,</span>
+        <span class="nx">child</span><span class="o">:</span><span class="p">[</span>
+            <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span><span class="s2">&#34;23&#34;</span><span class="p">,</span>
+             <span class="nx">comment</span><span class="o">:</span><span class="s2">&#34;3ef&#34;</span><span class="p">,</span>
+             <span class="nx">like</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span>
+             <span class="nx">parent_name</span><span class="o">:</span><span class="s1">&#39;xx&#39;</span><span class="p">,</span>
+             <span class="nx">child</span><span class="o">:</span><span class="p">[...]</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+             <span class="nx">name</span><span class="o">:</span><span class="s2">&#34;2113&#34;</span><span class="p">,</span>
+             <span class="nx">comment</span><span class="o">:</span><span class="s2">&#34;311ef&#34;</span><span class="p">,</span>
+             <span class="nx">like</span><span class="o">:</span><span class="mi">0</span><span class="p">,</span>
+             <span class="nx">parent_name</span><span class="o">:</span><span class="s1">&#39;xx&#39;</span><span class="p">,</span>
+             <span class="nx">child</span><span class="o">:</span><span class="p">[]</span>
+            <span class="p">},</span>
+        <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span><span class="s1">&#39;x11x&#39;</span><span class="p">,</span>
+        <span class="nx">comment</span><span class="o">:</span><span class="s2">&#34;x1xx&#34;</span><span class="p">,</span>
+        <span class="nx">like</span><span class="o">:</span><span class="mi">51</span><span class="p">,</span>
+        <span class="nx">child</span><span class="o">:</span><span class="p">[]</span>
+    <span class="p">}</span>
+<span class="p">])</span>
+</code></pre></div><p>大致如是,一个嵌套的数组,一层数组表示一级评论,一级评论表示对文章的评论,二级评论表示对一级评论的评论,放在一级评论的里面,用child字段表示,并加一个parent_name 的属性,用来指向它的父评论,应该用一个id来表示,但是为了方便,就偷懒用父评论的name了.</p>
+<p>当然后端的数据库不会这样表示,这个只是为了用vue的组件方便,因为组件也可以嵌套.对于嵌套的数据结构,我想应该可以用递归把它拍平,具体代码,就坑了吧.</p>
+<h3 id="vue实践">vue实践</h3>
+<p>一个简单的评论系统起码应该分成两部分,一个用来展示评论,一个用来回复,对应的vue组件的话,展示部分用两个组件,一个负责一级评论,一个负责剩下的级别.因为二者展示的方式不同,如果放在一个组件里面,用组件的自嵌套的话,逻辑比较复杂.
+分开成俩后,一个包含嵌套,一个不包含,可能复用性会好一点,当然这些都是我实践完后的想法,当时,肯定是因为<del>实现起来比较复杂</del>.</p>
+<p>回复部分就一个组件,虽然对文章的评论与对评论的评论,在数据结构上面不一样,但是复杂度不高,而且这本来就是一个自己编的数据结构,所以&hellip;</p>
+<p>其他的像时间,点赞数之类的小挂件,在数据结构上添加相应的字段即可,暂且不提.</p>
+<h3 id="效果">效果</h3>
+<p>对文章的评论:
+<img src="/images/%E5%AF%B9%E6%96%87%E7%AB%A0%E7%9A%84%E8%AF%84%E8%AE%BA.gif" alt="对文章的评论">
+对评论的评论:
+<img src="/images/%E5%AF%B9%E8%AF%84%E8%AE%BA%E7%9A%84%E8%AF%84%E8%AE%BA.gif" alt="对评论的评论">
+反手一个赞:
+<img src="/images/%E5%8F%8D%E6%89%8B%E4%B8%80%E4%B8%AA%E8%B5%9E.gif" alt="反手一个赞">
+其实整体部分实践起来不太困难,时间主要花在一个组件间的通讯,props如何使用上.</p>
+<p>二就是写模板,写css,调整效果比较麻烦,还好有bootstrap库,</p>
+<h3 id="todo">TODO</h3>
+<p>在截图的时候,发现回复和点赞icon也应该做成响应式的,😄</p>
+<p>数据验证功能,又是一个坑&hellip;</p>
+<ul>
+<li><a href="https://github.com/zhang-fork/VueComment/">文件放到GitHub了</a></li>
+</ul>
+]]></content></item><item><title>Vue小白实现reactive</title><link>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</link><pubDate>Sat, 23 May 2020 10:26:19 +0800</pubDate><guid>https://zhang-fork.github.io/posts/vue%E5%B0%8F%E7%99%BD%E5%AE%9E%E7%8E%B0reactive/</guid><description>After reading es5, es6, and ts, ok, it is time to read the Vue. So,git clone the source code ,then open it. WTF,every single word i understood, but, you know,i gave up.
 All paths lead to Rome,as a newbie, what i can do is to write some sample myself.The easiest part of Vue may be the reactive function.So, let&amp;rsquo;s get rid of it.
 //The core concept of reactive is when we change the data, //the view can update simultaneously.</description><content type="html"><![CDATA[<p>After reading <a href="https://wangdoc.com/javascript/">es5</a>, <a href="https://es6.ruanyifeng.com/">es6</a>, and <a href="https://ts.xcatliu.com/">ts</a>, ok, it is time to read the Vue. So,git clone the source code ,then open it.
 <del>WTF</del>,every single word i understood, but, you know,i gave up.</p>
@@ -33,16 +102,17 @@ All paths lead to Rome,as a newbie, what i can do is to write some sample myself
 <li>if we use the method of array,the handlers such as getting may be triggered more than once.</li>
 <li>some other problems we don&rsquo;t know, you are the newbie!</li>
 </ul>
-<h2 id="function">Function</h2>
+<hr>
+<h2 id="function-reactive">Function Reactive</h2>
 <p>Ok,let&rsquo;s assume that all  problems above had been solved,how about function?</p>
 <p>As we know,the procedure ,such as joining or splitting the string,whatever,can also change the date.if we change the string, the returns of function must be changed too.how to implement this?</p>
 <p>Simplified answer:if we change the object involved in the function, we recall this function.</p>
 <p>Does JS can remember which function should be recalled when we change the object ?</p>
-<p>Of course not,we have to  construct a container to remember this,which store the object and the function ,what&rsquo;s more,this object may have many properties,our function may only related one of them,or many other functions related to this property too.</p>
+<p>Of course not,we have to  construct a container to remember this,which store the object and the function ,what&rsquo;s more,this object may have many properties,our function may only related one of them,or many other  properties too.</p>
 <p>what a mess,whatever, let&rsquo;s call it verybigmap.</p>
 <div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">let</span> <span class="nx">verybigmap</span><span class="o">=</span> <span class="k">new</span> <span class="nx">WeakMap</span><span class="p">();</span>
 </code></pre></div><ul>
-<li>The key is that when we call a function we want verybigmap to remember and then call again when we change the object,the handler getter must be triggered. Obviously,we should implant our code in handler.</li>
+<li>The key is that when we call a function, we want verybigmap to remember and then  we change the object ,call it again the handler getter must be triggered. Obviously,we should implant our code in handler.</li>
 </ul>
 <div class="highlight"><pre class="chroma"><code class="language-JavaScript" data-lang="JavaScript"><span class="kd">let</span> <span class="nx">handler</span><span class="o">=</span><span class="p">{</span>
   <span class="nx">get</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span><span class="nx">key</span><span class="p">,</span><span class="nx">receiver</span><span class="p">){</span>
@@ -59,9 +129,9 @@ All paths lead to Rome,as a newbie, what i can do is to write some sample myself
 </span><span class="c1"></span><span class="p">}</span>
 <span class="c1">//I think this name &#39;effect&#39; get from the terminology `side effect`
 </span></code></pre></div><p>The problem in above code segments may be not a problem for experts,but no one forbid me to have a question.if we throw the fn to the verybigmap first,where we place it,the <em>key</em>,or the <em>value</em>?</p>
-<p>Leaving it aside first,our aim is,after we trigger the setter(change a data),we recall the function,right? At first ,we must find the function in the verybigmap, at that moment, what we know is the target and the key(from the setter handler). Let&rsquo;s go back to previous problem, the answer is easy, fn must be the value. Yet hard question followed, how can we place a value before we get a key?</p>
-<p>It looks as through we should run fn first,nevertheless,from the context of effect function,we can not get the key connected to fn.</p>
-<p>There must be some kind of bridge to connect the target and fn,regardless of which one does first.you the wise must know that we can use the same trick again,which cache the key or value in stack,when we run the second procedure,we get the key or value from the stack top,then pop it.wow,there we go,fix it.</p>
+<p>Leaving it aside first,our aim is,after we trigger the setter(change a data),we recall the function,right? At first ,we must find the function in the verybigmap, at that moment, what we know is the target and the key(from the setter handler). Let&rsquo;s go back to previous problem, the answer is easy, fn must be the value. Yet hard question followed, how can we place a value in a map before we get a key?</p>
+<p>It looks like we should run fn first,nevertheless,from the context of effect function,we can not get the key connected to fn.</p>
+<p>There must be some kind of bridge to connect the target with fn,regardless of which one run first.you the wise must know that we can use the same trick again,when we run one step, push the key or value in stack,when we run the second procedure,we get the key or value from the stack top,then pop it.wow,there we go,fix it.</p>
 <p>This article cost me a little time,I am so tired,the rest will be in next <a href="">post</a>.</p>
 <p>To be continued&hellip;</p>
 ]]></content></item><item><title>Slowing</title><link>https://zhang-fork.github.io/posts/slowing/</link><pubDate>Sun, 10 May 2020 09:04:02 +0800</pubDate><guid>https://zhang-fork.github.io/posts/slowing/</guid><description>基础不牢,地动山摇.

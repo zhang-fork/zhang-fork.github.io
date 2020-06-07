@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>bootstrap on zhangFork</title><link>https://zhang-fork.github.io/tags/bootstrap/</link><description>Recent content in bootstrap on zhangFork</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jun 2020 10:48:32 +0800</lastBuildDate><atom:link href="https://zhang-fork.github.io/tags/bootstrap/index.xml" rel="self" type="application/rss+xml"/><item><title>Vue实现一个简单的评论系统</title><link>https://zhang-fork.github.io/posts/vue%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 05 Jun 2020 10:48:32 +0800</pubDate><guid>https://zhang-fork.github.io/posts/vue%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</guid><description>上次表示要接着看源码来着,但是看了上次写的post，有点看不懂，真是:talk is cheap，show code please! 暂且用起。
+目标是实现一个评论系统。
+数据结构 因为还没有学后端，所以先自己实践一个。
+import {reactive} from &amp;#34;vue&amp;#34; const list=reactive([ { name:&amp;#39;xx&amp;#39;, comment:&amp;#34;xxx&amp;#34;, like:5, child:[ { name:&amp;#34;23&amp;#34;, comment:&amp;#34;3ef&amp;#34;, like:0, parent_name:&amp;#39;xx&amp;#39;, child:[...] }, { name:&amp;#34;2113&amp;#34;, comment:&amp;#34;311ef&amp;#34;, like:0, parent_name:&amp;#39;xx&amp;#39;, child:[] }, ] }, { name:&amp;#39;x11x&amp;#39;, comment:&amp;#34;x1xx&amp;#34;, like:51, child:[] } ]) 大致如是,一个嵌套的数组,一层数组表示一级评论,一级评论表示对文章的评论,二级评论表示对一级评论的评论,放在一级评论的里面,用child字段表示,并加一个parent_name 的属性,用来指向它的父评论,应该用一个id来表示,但是为了方便,就偷懒用父评论的name了.
+当然后端的数据库不会这样表示,这个只是为了用vue的组件方便,因为组件也可以嵌套.对于嵌套的数据结构,我想应该可以用递归把它拍平,具体代码,就坑了吧.
+vue实践 一个简单的评论系统起码应该分成两部分,一个用来展示评论,一个用来回复,对应的vue组件的话,展示部分用两个组件,一个负责一级评论,一个负责剩下的级别.因为二者展示的方式不同,如果放在一个组件里面,用组件的自嵌套的话,逻辑比较复杂. 分开成俩后,一个包含嵌套,一个不包含,可能复用性会好一点,当然这些都是我实践完后的想法,当时,肯定是因为实现起来比较复杂.
+回复部分就一个组件,虽然对文章的评论与对评论的评论,在数据结构上面不一样,但是复杂度不高,而且这本来就是一个自己编的数据结构,所以&amp;hellip;
+其他的像时间,点赞数之类的小挂件,在数据结构上添加相应的字段即可,暂且不提.
+效果 对文章的评论: 对评论的评论: 反手一个赞: 其实整体部分实践起来不太困难,时间主要花在一个组件间的通讯,props如何使用上.
+二就是写模板,写css,调整效果比较麻烦,还好有bootstrap库,
+TODO 在截图的时候,发现回复和点赞icon也应该做成响应式的,😄
+数据验证功能,又是一个坑&amp;hellip;
+文件放到GitHub了</description></item></channel></rss>
