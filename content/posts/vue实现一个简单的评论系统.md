@@ -6,7 +6,7 @@ toc: false
 images:
 tags: ["bootstrap","Vue3"]
 ---
-上次表示要接着看源码来着,但是看了上次写的post，有点看不懂，真是:talk is cheap，show code please!
+~~上次表示要接着看源码来着,但是看了上次写的post，有点看不懂，真是:talk is cheap，show code please!~~
 暂且用起。
 
 目标是实现一个评论系统。
